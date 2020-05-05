@@ -84,3 +84,8 @@ if __name__ == '__main__':
     dexter_go('left', 200, 0.003, 1)
     dexter_go('tots_cw', 1066, 0.003, 1)
     dexter_go('tots_ccw', 1066, 0.003, 1)
+
+"""
+NOTES: A stepdelay=0.003 seems like the fastest Dexter can go without motors stalling. 
+A stepdelay of 0.02 seems goof for the lower limit giving a factor of 4 on speed. 
+"""
