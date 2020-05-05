@@ -21,8 +21,8 @@ GPIO.setwarnings(False)
 # TODO: Add diagonal directions
 # Turning is relative to if you were looking down onto the robot from above
 directions = {'forward': (0, 1, 0, 1), 'backward': (1, 0, 1, 0),
-              'left': (1, 1, 1, 1), 'right': (0, 0, 0, 0),
-              'tots_cw': (1, 1, 0, 0), 'tots_ccw': (0, 0, 1, 1)}
+              'left': (1, 1, 0, 0), 'right': (0, 0, 1, 1),
+              'tots_cw': (0, 0, 0, 0), 'tots_ccw': (1, 1, 1, 1)}
 
 
 # Modified function from RpiMotorLib -
@@ -76,8 +76,11 @@ def dexter_go(direction='forward', steps=100, stepdelay=.05, initdelay=.05, verb
 
 
 if __name__ == '__main__':
-    dexter_go('forward', 200, 0.01, 0.05, True)
+    dexter_go('forward', 200, 0.02, 0.05, True)
     dexter_go('backward', 200, 0.01, 1)
-    dexter_go('forward', 200, 0.0025, 1)
-    dexter_go('backward', 200, 0.0025, 1)
-    dexter_go('right', 200, 0.0025, 1)
+    dexter_go('forward', 200, 0.003, 0.1)
+    dexter_go('backward', 200, 0.003, 0.1)
+    dexter_go('right', 200, 0.003, 1)
+    dexter_go('left', 200, 0.003, 1)
+    dexter_go('tots_cw', 1066, 0.003, 1)
+    dexter_go('tots_ccw', 1066, 0.003, 1)
