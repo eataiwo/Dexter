@@ -16,35 +16,48 @@ from utils.Motor import degree_calc
 directions = {'forward': (0, 1, 0, 1), 'backward': (1, 0, 1, 0),
               'left': (1, 1, 0, 0), 'right': (0, 0, 1, 1),
               'tots_cw': (0, 0, 0, 0), 'tots_ccw': (1, 1, 1, 1),  # In the following key value pairs only two wheels
-              'diag_fl': ('', 1, 0, ''), 'diag_fr': (1, '', '', 0),
+              'diag_fl': (' ', 1, 0, ' '), 'diag_fr': (1,' ' , ' ', 0),
               # will be driven. Undriven wills will use placeholder
-              'diag_rl': (0, '', '', 1), 'diag_rr': ('', 0, 1, ''),
+              'diag_rl': (0, ' ', ' ', 1), 'diag_rr': (' ', 0, 1, ' '),
               # values of 0 for motor direction. Alternative is to
-              'cor_right_cw:': (0, '', 0, ''), 'cor_right_ccw': (1, '', 1, ''),  # to use None.
-              'cor_left_cw:': ('', 1, '', 1), 'cor_left_ccw': ('', 0, '', 0),
-              'tur_rear_ax_cw': (0, 0, '', ''), 'tur_rear_ax_ccw': (1, 1, '', ''),
-              'tur_front_ax_cw': ('', '', 0, 0), 'tur_front_ax_ccw': ('', '', 1, 1)}
+              'cor_right_cw:': (0, ' ', 0, ' '), 'cor_right_ccw': (1, ' ', 1, ' '),  # to use None.
+              'cor_left_cw:': (' ', 1, ' ', 1), 'cor_left_ccw': (' ', 0, ' ', 0),
+              'tur_rear_ax_cw': (0, 0, ' ', ' '), 'tur_rear_ax_ccw': (1, 1, ' ', ' '),
+              'tur_front_ax_cw': (' ', ' ', 0, 0), 'tur_front_ax_ccw': (' ', ' ', 1, 1)}
 
 
-class Locomotion:
-    def __int__(self, direction_pins, step_pins):
+class Powertrain():
+    def __init__(self, direction_pins, step_pins):
         self.direction_pins = direction_pins
         self.step_pins = step_pins
-
+        self.directions = directions
     def go(self, direction='forward', distance=0.1, speed=30, initdelay=.05, verbose=False):
-        steps = dist_2_steps_wheel(distance)
+        steps = dist_2_steps_wheel(distance)[0]
         stepdelay = percentage_to_step_delay(speed)
+#       print(f' calc steps is {steps} and calc stepdelay is {stepdelay}')
 
         if 'diag' in direction or 'cor' in direction or 'tur' in direction:
             print("Not sure how to handle this direction yet")
-            GPIO.output(self.direction_pins, list(directions[direction]).remove(''))
+            print(f'The direction is {directions[direction]} with a {type(directions[direction])}')
+            print(f'Now I will make it a list and remove entries')
+            x = list(directions[direction])
+            print(x)
+            y = [i for i in x if not ' ']
+            z = list(filter(None ,x))
+            print(y)
+            print(type(y))
+            print(z)
+            print(type(z))
+            GPIO.output(self.direction_pins, list(directions[direction]).remove(' '))
         else:
             GPIO.output(self.direction_pins, directions[direction])
 
         try:
             sleep(initdelay)
             for i in range(steps):
+#                print('Attempting to do one step')
                 GPIO.output(self.step_pins, True)
+#                print('Step completed')
                 sleep(stepdelay)
                 GPIO.output(self.step_pins, False)
                 sleep(stepdelay)
@@ -56,12 +69,12 @@ class Locomotion:
         except Exception as motor_error:
             print(sys.exc_info()[0])
             print(motor_error)
-            print("RpiMotorLib  : Unexpected error:")
+            print("RpiMotorLib  :(is it here)  Unexpected error:")
         else:
             # print report status
             if verbose:
-                print("\nMotor Run finished, Details:.\n")
-                print(f"Direction = {direction}")
+                print('\nMotor Run finished, Details:\n')
+                print(f'Direction = {direction}')
                 print(f"Number of steps = {steps}")
                 print(f"Step Delay = {stepdelay}")
                 print(f"Initial delay = {initdelay}")
