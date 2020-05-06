@@ -95,7 +95,7 @@ class Motor(object):
             for pin in self.mode_pins:
                 GPIO.output(pin, False)
 
-def degree_calc(steps, steptype):
+def degree_calc(steps, steptype='Full'):
     """ calculate and returns size of turn in degree
     , passed number of steps and steptype"""
     degree_value = {'Full': 1.8,
