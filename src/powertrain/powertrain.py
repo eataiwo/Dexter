@@ -37,20 +37,12 @@ class Powertrain():
 #       print(f' calc steps is {steps} and calc stepdelay is {stepdelay}')
 
         if 'diag' in direction or 'cor' in direction or 'tur' in direction:
+            mod_step_pins = []
             print("Not sure how to handle this direction yet")
-            print(f'The direction is {directions[direction]} with a {type(directions[direction])}')
-            print(f'Now I will make it a list and remove entries')
-            x = list(directions[direction])
-            print(x)
-            y = [i for i in x if not ' ']
-            z = list(filter(None ,x))
-            print(y)
-            print(type(y))
-            print(z)
-            print(type(z))
-            GPIO.output(self.direction_pins, list(directions[direction]).remove(' '))
-        else:
-            GPIO.output(self.direction_pins, directions[direction])
+            for i, val in enumerate(directions[direction]):
+                if val != ' ':
+                    mod_step_pins.append(self.step_pins[i])
+            self.step_pins = mod_step_pins
 
         try:
             sleep(initdelay)
