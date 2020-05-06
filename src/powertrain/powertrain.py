@@ -39,7 +39,7 @@ class Powertrain:
 
         if 'diag' in direction or 'cor' in direction or 'tur' in direction:
             mod_step_pins = []
-            print("Not sure how to handle this direction yet")
+#            print("Not sure how to handle this direction yet")
             for i, val in enumerate(directions[direction]):
                 if val != ' ':
                     mod_step_pins.append(self.step_pins[i])
