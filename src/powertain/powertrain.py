@@ -32,9 +32,14 @@ class Locomotion:
         self.step_pins = step_pins
 
     def go(self, direction='forward', distance=0.1, speed=30, initdelay=.05, verbose=False):
-        GPIO.output(self.direction_pins, directions[direction])
         steps = dist_2_steps_wheel(distance)
         stepdelay = percentage_to_step_delay(speed)
+
+        if 'diag' in direction or 'cor' in direction or 'tur' in direction:
+            print("Not sure how to handle this direction yet")
+            GPIO.output(self.direction_pins, list(directions[direction]).remove(''))
+        else:
+            GPIO.output(self.direction_pins, directions[direction])
 
         try:
             sleep(initdelay)
@@ -99,6 +104,11 @@ class Locomotion:
             # cleanup
             GPIO.output(self.step_pins, False)
             GPIO.output(self.direction_pins, False)
+
+    def turn(self, turn_type='tots_cw'):
+        # TODO:
+        # For handling turning
+        pass
 
     def setup(self):
         GPIO.setmode(GPIO.BCM)
