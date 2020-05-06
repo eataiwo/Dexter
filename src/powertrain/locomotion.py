@@ -22,12 +22,13 @@ distance = 0.3
 #dexter.go('left', distance, speed, 1)
 #dexter.go('tots_cw', 0.5, speed, 1)
 #dexter.go('tots_ccw', 0.5, speed, 1)
+dexter.go('diag_fl', distance, speed, 1)
 
-for key in dexter.directions.keys():
-    try:
-        dexter.go(key, distance, speed, 1, True)
-    except Exception as error:
-        print(error)
+# for key in dexter.directions.keys():
+#     try:
+#         dexter.go(key, distance, speed, 1, True)
+#     except Exception as error:
+#         print(error)
 
 
 # def listen():

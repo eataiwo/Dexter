@@ -16,7 +16,7 @@ from utils.Motor import degree_calc
 directions = {'forward': (0, 1, 0, 1), 'backward': (1, 0, 1, 0),
               'left': (1, 1, 0, 0), 'right': (0, 0, 1, 1),
               'tots_cw': (0, 0, 0, 0), 'tots_ccw': (1, 1, 1, 1),  # In the following key value pairs only two wheels
-              'diag_fl': (' ', 1, 0, ' '), 'diag_fr': (1,' ' , ' ', 0),
+              'diag_fl': (' ', 1, 0, ' '), 'diag_fr': (1, ' ', ' ', 0),
               # will be driven. Undriven wills will use placeholder
               'diag_rl': (0, ' ', ' ', 1), 'diag_rr': (' ', 0, 1, ' '),
               # values of 0 for motor direction. Alternative is to
@@ -26,15 +26,16 @@ directions = {'forward': (0, 1, 0, 1), 'backward': (1, 0, 1, 0),
               'tur_front_ax_cw': (' ', ' ', 0, 0), 'tur_front_ax_ccw': (' ', ' ', 1, 1)}
 
 
-class Powertrain():
+class Powertrain:
     def __init__(self, direction_pins, step_pins):
         self.direction_pins = direction_pins
         self.step_pins = step_pins
         self.directions = directions
+
     def go(self, direction='forward', distance=0.1, speed=30, initdelay=.05, verbose=False):
         steps = dist_2_steps_wheel(distance)[0]
         stepdelay = percentage_to_step_delay(speed)
-#       print(f' calc steps is {steps} and calc stepdelay is {stepdelay}')
+        #       print(f' calc steps is {steps} and calc stepdelay is {stepdelay}')
 
         if 'diag' in direction or 'cor' in direction or 'tur' in direction:
             mod_step_pins = []
@@ -42,19 +43,32 @@ class Powertrain():
             for i, val in enumerate(directions[direction]):
                 if val != ' ':
                     mod_step_pins.append(self.step_pins[i])
-            self.step_pins = mod_step_pins
 
         try:
             sleep(initdelay)
             for i in range(steps):
-#                print('Attempting to do one step')
-                GPIO.output(self.step_pins, True)
-#                print('Step completed')
-                sleep(stepdelay)
-                GPIO.output(self.step_pins, False)
-                sleep(stepdelay)
-                if verbose:
-                    print("Steps count {}".format(i))
+                if 'diag' in direction or 'cor' in direction or 'tur' in direction:
+                    mod_step_pins = []
+                    print("Not sure how to handle this direction yet")
+                    for j, val in enumerate(directions[direction]):
+                        if val != ' ':
+                            mod_step_pins.append(self.step_pins[j])
+                    #                print('Attempting to do one step')
+                    GPIO.output(mod_step_pins, True)
+                    #                print('Step completed')
+                    sleep(stepdelay)
+                    GPIO.output(mod_step_pins, False)
+                    sleep(stepdelay)
+                    if verbose:
+                        print("Steps count {}".format(i))
+                else:
+                    GPIO.output(self.step_pins, True)
+                    #                print('Step completed')
+                    sleep(stepdelay)
+                    GPIO.output(self.step_pins, False)
+                    sleep(stepdelay)
+                    if verbose:
+                        print("Steps count {}".format(i))
 
         except KeyboardInterrupt:
             print("User Keyboard Interrupt : RpiMotorLib:")
