@@ -14,15 +14,15 @@ dexter.setup()
 # Testing objection creation
 speed = 20
 distance = 0.3
-#dexter.go('forward', distance, speed, 0.05, True)
-#dexter.go('backward', distance, speed, 1)
-#dexter.go('forward', distance, 100, 0.1)
-#dexter.go('backward', distance, 100, 0.1)
-#dexter.go('right', distance, speed, 1)
-#dexter.go('left', distance, speed, 1)
-#dexter.go('tots_cw', 0.5, speed, 1)
-#dexter.go('tots_ccw', 0.5, speed, 1)
-dexter.go('diag_fl', distance, speed, 1)
+dexter.go('forward', distance, speed, 0.05, True)
+dexter.go('backward', distance, speed, 1)
+dexter.go('forward', distance, 100, 0.1)
+dexter.go('backward', distance, 100, 0.1)
+dexter.go('right', distance, speed, 1)
+dexter.go('left', distance, speed, 1)
+dexter.go('tots_cw', 0.5, speed, 1)
+dexter.go('tots_ccw', 0.5, speed, 1)
+#dexter.go('diag_fl', distance, speed, 1)
 
 # for key in dexter.directions.keys():
 #     try:
