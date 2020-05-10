@@ -90,7 +90,6 @@ class Powertrain:
             print(sys.exc_info()[0])
             print(motor_error)
             print("RpiMotorLib  : Unexpected error:")
-        else:
             # print report status
             if verbose:
                 print("\nMotor Run finished, Details:.\n")
