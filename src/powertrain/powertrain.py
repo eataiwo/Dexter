@@ -34,8 +34,8 @@ class Powertrain:
         steps = dist_2_steps_wheel(distance)[0]
         stepdelay = percentage_to_step_delay(speed)
         GPIO.output(self.direction_pins, directions[direction])
+        sleep(initdelay)
         try:
-            sleep(initdelay)
             for i in range(steps):
                 GPIO.output(self.step_pins, True)
                 sleep(stepdelay)
@@ -43,21 +43,13 @@ class Powertrain:
                 sleep(stepdelay)
                 if verbose:
                     print("Steps count {}".format(i))
-                else:
-                    GPIO.output(self.step_pins, True)
-                    #                print('Step completed')
-                    sleep(stepdelay)
-                    GPIO.output(self.step_pins, False)
-                    sleep(stepdelay)
-                    if verbose:
-                        print("Steps count {}".format(i))
-
         except KeyboardInterrupt:
             print("User Keyboard Interrupt : RpiMotorLib:")
         except Exception as motor_error:
             print(sys.exc_info()[0])
             print(motor_error)
             print("RpiMotorLib  :(is it here)  Unexpected error:")
+        else:
         # print report status
             if verbose:
                 print('\nMotor Run finished, Details:\n')
@@ -74,8 +66,8 @@ class Powertrain:
 
     def go_steps(self, direction='forward', steps=100, stepdelay=.05, initdelay=.05, verbose=False):
         GPIO.output(self.direction_pins, directions[direction])
+        sleep(initdelay)
         try:
-            sleep(initdelay)
             for i in range(steps):
                 GPIO.output(self.step_pins, True)
                 sleep(stepdelay)
@@ -91,6 +83,7 @@ class Powertrain:
             print(motor_error)
             print("RpiMotorLib  : Unexpected error:")
             # print report status
+        else:
             if verbose:
                 print("\nMotor Run finished, Details:.\n")
                 print(f"Direction = {direction}")
