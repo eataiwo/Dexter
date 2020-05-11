@@ -54,7 +54,7 @@ class Powertrain:
             if verbose:
                 print('\nMotor Run finished, Details:\n')
                 print(f'Direction = {direction}')
-                print(f"Number of steps = {self.steps}")
+                print(f"Number of steps = {steps}")
                 print(f"Step Delay = {stepdelay}")
                 print(f"Initial delay = {initdelay}")
                 print(f"Rotation of wheels in degrees = {degree_calc(steps)}")
@@ -98,8 +98,9 @@ class Powertrain:
             GPIO.output(self.direction_pins, False)
 
     def turn(self, turn_type='tots_cw'):
-        # TODO:
-        # For handling turning
+        # TODO: Add the turning functionaility and do a rough calibration
+        # Make a converter of degrees to steps again from a calibration 
+        # I remember roughly 1066 steps was a full rotation for Dexter
         pass
 
     def setup(self):
