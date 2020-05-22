@@ -46,6 +46,7 @@ def reroute(changepin):
         dexter.stop()
     else:
         print("Wrong command")
+
     if not dexter.drive and changePin != 5:
         dexter.go_remote(speed)
 
