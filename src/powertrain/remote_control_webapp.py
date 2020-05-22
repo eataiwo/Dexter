@@ -38,6 +38,10 @@ def reroute(changepin):
         dexter.remote_direction = 'right'
     elif changePin == 4:
         dexter.remote_direction = 'backward'
+    elif changePin == 6:
+        dexter.remote_direction = 'tots_cw'
+    elif changePin == 7:
+        dexter.remote_direction = 'tots_ccw'
     elif changePin == 5:
         dexter.stop()
     else:
