@@ -40,6 +40,21 @@ def dist_2_steps_wheel(dist, wheel_rad=0.048, microstep="full", ):
     error = (abs(dist - actual_dist) / dist)*100
     return  [steps, actual_dist, error] # Steps
 
+def deg_2_steps_wheel(deg, wheel_rad=0.048, microstep="full", ):
+    """
+    :param deg:
+    :param wheel_rad:
+    :param microstep:
+    :return:
+    """
+    r = 190.55427
+    wheel_circum = (2 * m.pi) * wheel_rad  # in meters
+    revs = dist / wheel_circum
+    steps = round(revs * STEPS_PER_REV[microstep])
+    actual_dist = steps_2_dist_wheel(steps, wheel_rad, microstep)
+    error = (abs(dist - actual_dist) / dist)*100
+    return  [steps, actual_dist, error] # Steps
+
 
 # Testing function outputs
 if __name__ == '__main__':

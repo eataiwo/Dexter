@@ -37,9 +37,15 @@ class Powertrain:
         # TODO: Change direction to self.direction and see if it works
 
     def go(self, direction='forward', distance=0.1, speed=30, initdelay=.05, verbose=False):
-        steps = dist_2_steps_wheel(distance)[0]
-        stepdelay = percentage_to_step_delay(speed)
         GPIO.output(self.direction_pins, directions[direction])
+        stepdelay = percentage_to_step_delay(speed)
+
+
+        if direction in ['forward', 'backward', 'left', 'right']:
+            steps = dist_2_steps_wheel(distance)[0]
+        elif direction in ['tots_cw', 'tots_ccw']:
+            steps = deg_2_steps_wheel(distance)[0]
+
         sleep(initdelay)
         try:
             for i in range(steps):
