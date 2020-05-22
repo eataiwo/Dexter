@@ -13,7 +13,7 @@ dexter.setup()
 
 # Testing objection creation
 speed = 80
-distance = 0.5
+distance = 0.3
 turn = 360
 dexter.go('forward', distance, speed, 0.05, True)
 dexter.go('backward', distance, speed, 1)

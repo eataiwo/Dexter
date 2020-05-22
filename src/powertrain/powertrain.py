@@ -1,4 +1,12 @@
 """
+==================================================
+Author: TJ Taiwo
+
+Projects Referenced:
+RpiMotorLib (Gavin Lyons) - https://github.com/gavinlyonsrepo/RpiMotorLib
+gatoBot (Jorge Rancé) - https://github.com/jorgerance/gatoBot
+
+==================================================
 Numbering/Naming convention for wheels on Dexter
 [1 , 2] [FL , FR]
 [3 , 4] [RL , RR]
@@ -7,12 +15,9 @@ Numbering/Naming convention for wheels on Dexter
 import sys
 import RPi.GPIO as GPIO
 from src.powertrain.step_converter import dist_2_steps
-from src.powertrain.step_converter import steps_2_dist
-from src.powertrain.speed_converter import percentage_to_step_delay
-from src.powertrain.speed_converter import step_delay_to_percentage
+from src.powertrain.speed_converter import percent_to_stepdelay
 from src.powertrain.step_converter import deg_2_steps
 from time import sleep
-
 
 # Turning is relative to if you were looking down onto the robot from above
 directions = {'forward': (0, 1, 0, 1), 'backward': (1, 0, 1, 0),
@@ -27,18 +32,64 @@ directions = {'forward': (0, 1, 0, 1), 'backward': (1, 0, 1, 0),
 
 
 class Powertrain:
+    """
+    A class to control and interact with Dexter's powertrain.
+
+    Attributes
+    --------------
+    direction_pins: GPIO pins connected to the direction pin on the stepper motor driver
+    step_pins: GPIO pins connected to the step pin on the stepper motor driver
+    directions: Dictionary that maps global directions to the individual wheel direction pins
+    drive: Variable that tracks if the powertain is active or not
+    remote_direction: Last direction sent from the web application
+
+    Methods
+    -------
+    go():
+        Moves Dexter based on desired direction, speed and distance.
+    go_steps():
+        Moves Dexter based on desired direction, step delay and number of steps
+    go_remote():
+        Moves Dexter based on commands from a web application
+    stop():
+        Stops Dexter
+    setup():
+        Setup for the powertrain
+    """
+
     def __init__(self, direction_pins, step_pins):
+        """
+        :param direction_pins: GPIO pins connected to the direction pin on the stepper motor driver
+        :param step_pins: GPIO pins connected to the step pin on the stepper motor driver
+        :type direction_pins: list, tuple
+        :type step_pins: list, tuple
+        """
+
         self.direction_pins = direction_pins
         self.step_pins = step_pins
-        self.directions = directions
         self.drive = False
+        self.direction = ''
         self.remote_direction = ''
 
-        # TODO: Change direction to self.direction and see if it works
+    def go(self, direction, distance, speed=0, initdelay=.05, verbose=False):
+        """
+        Moves Dexter based on desired direction, speed and distance.
 
-    def go(self, direction='forward', distance=0.1, speed=30, initdelay=.05, verbose=False):
+        :param direction: Desired direction of Dexter.
+        :param distance: Distance to be travelled in meters or degrees depending on direction.
+        :param speed: Value from 0-100 for wheel speed.
+        :param initdelay: Initial delay before motors begin moving.
+        :param verbose: Prints information related to motor movement
+        :type direction: str
+        :type distance: int, float
+        :type speed: int, float
+        :type initdelay: int, float
+        :type verbose: bool
+        """
+
+        self.direction = direction
+        stepdelay = percent_to_stepdelay(speed)
         GPIO.output(self.direction_pins, directions[direction])
-        stepdelay = percentage_to_step_delay(speed)
 
         if direction in ['forward', 'backward', 'left', 'right']:
             steps = dist_2_steps(distance)[0]
@@ -46,6 +97,7 @@ class Powertrain:
             steps = deg_2_steps(distance)[0]
 
         sleep(initdelay)
+
         try:
             for i in range(steps):
                 GPIO.output(self.step_pins, True)
@@ -53,49 +105,45 @@ class Powertrain:
                 GPIO.output(self.step_pins, False)
                 sleep(stepdelay)
                 if verbose:
-                    print("Steps count {}".format(i))
+                    print(f'Steps count {i}')
         except KeyboardInterrupt:
-            print("User Keyboard Interrupt : RpiMotorLib:")
+            print('User Keyboard Interrupt @ Powertrain.go()')
         except Exception as motor_error:
             print(sys.exc_info()[0])
             print(motor_error)
-            print("RpiMotorLib  :(is it here)  Unexpected error:")
+            print("Powertrain.go(): Unexpected error:")
         else:
-            # print report status
             if verbose:
-                print('\nMotor Run finished, Details:\n')
                 print(f'Direction = {direction}')
-                print(f"Number of steps = {steps}")
-                print(f"Step Delay = {stepdelay}")
-                print(f"Initial delay = {initdelay}")
-                print(f"Total distance travelled = {steps_2_dist(steps)}m ")
+                print(f'Number of steps = {steps}')
+                print(f'Speed = {speed}')
+                print(f'Step Delay = {stepdelay}')
+                print(f'Initial delay = {initdelay}')
         finally:
             # cleanup
-            GPIO.output(self.step_pins, False)
-            GPIO.output(self.direction_pins, False)
-
-    def go_remote(self, speed=50, initdelay=.05, verbose=False):
-        stepdelay = percentage_to_step_delay(speed)
-        print(f'Speed is {speed}, and stepdelay is {stepdelay}')
-        self.drive = True
-        try:
-            while self.drive:
-                # TODO: Finish implementation of if statements for directions
-                self.go_steps(self.remote_direction, 1, stepdelay, 0)
-        except KeyboardInterrupt:
-            print("User Keyboard Interrupt : Remote Controller")
-        except Exception as remote_error:
-            print(sys.exc_info()[0])
-            print(remote_error)
-            print("Unexpected error:")
-        finally:
-            # print report status
             GPIO.output(self.step_pins, False)
             GPIO.output(self.direction_pins, False)
 
     def go_steps(self, direction='forward', steps=100, stepdelay=.05, initdelay=.05, verbose=False):
+        """
+        Moves Dexter based on desired direction, stepdelay and number of steps.
+
+        :param direction: Desired direction of Dexter.
+        :param steps: Steps stepper motor should turn.
+        :param stepdelay: Delay between each step in seconds.
+        :param initdelay: Initial delay before motors begin moving.
+        :param verbose: Prints information related to motor movement
+        :type direction: str
+        :type steps: int
+        :type stepdelay: int, float
+        :type initdelay: int, float
+        :type verbose: bool
+        """
+
+        self.direction = direction
         GPIO.output(self.direction_pins, directions[direction])
         sleep(initdelay)
+
         try:
             for i in range(steps):
                 GPIO.output(self.step_pins, True)
@@ -103,40 +151,56 @@ class Powertrain:
                 GPIO.output(self.step_pins, False)
                 sleep(stepdelay)
                 if verbose:
-                    print("Steps count {}".format(i))
-
+                    print(f'Steps count {i}')
         except KeyboardInterrupt:
-            print("User Keyboard Interrupt : RpiMotorLib:")
+            print('User Keyboard Interrupt @ Powertrain.go_steps()')
         except Exception as motor_error:
             print(sys.exc_info()[0])
             print(motor_error)
-            print("RpiMotorLib  : Unexpected error:")
-            # print report status
+            print("Powertrain.go_steps(): Unexpected error:")
         else:
             if verbose:
-                print("\nMotor Run finished, Details:.\n")
-                print(f"Direction = {direction}")
-                print(f"Number of steps = {steps}")
-                print(f"Step Delay = {stepdelay}")
-                print(f"Initial delay = {initdelay}")
-                print(f"Rotation of wheels in degrees = {degree_calc(steps)}")
-                print(f"Total distance travelled = {steps_2_dist_wheel(steps)}m ")
+                print(f'Direction = {direction}')
+                print(f'Number of steps = {steps}')
+                print(f'Step Delay = {stepdelay}')
+                print(f'Initial delay = {initdelay}')
         finally:
             # cleanup
             GPIO.output(self.step_pins, False)
-            print("Finally loop works")
             GPIO.output(self.direction_pins, False)
 
-    def wait_for_command(self, command=' '):
-        pass
+    def remote(self, speed, initdelay=.05, verbose=False):
+        """
+        Moves Dexter based on desired direction from web application.
+
+        :param speed: Steps stepper motor should turn.
+        :param initdelay: Initial delay before motors begin moving.
+        :param verbose: Prints information related to motor movement
+        :type speed: int, float
+        :type initdelay: int, float
+        :type verbose: bool
+        """
+
+        stepdelay = percent_to_stepdelay(speed)
+        self.drive = True
+
+        while self.drive:
+            self.go_steps(self.remote_direction, 1, stepdelay, 0, verbose)
 
     def stop(self):
+        """
+        Stops powertrain
+        """
         self.drive = False
         GPIO.output(self.step_pins, False)
         GPIO.output(self.direction_pins, False)
 
     def setup(self):
+        """
+        Setup for powertrain
+        """
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(self.direction_pins, GPIO.OUT)
         GPIO.setup(self.step_pins, GPIO.OUT)
+

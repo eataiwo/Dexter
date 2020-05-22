@@ -1,5 +1,7 @@
 """
-Functions for converting steps to other useful information and vice-versa
+Functions for converting stepper motor parameter to more useful
+ones and vice versa.
+
 """
 import math as m
 
@@ -13,13 +15,15 @@ STEPS_PER_REV = {'full': 200,
 
 def steps_2_dist(steps, wheel_rad=0.048, microstep="full", ):
     """
-
-    :param steps:
-    :param wheel_rad:
-    :param microstep:
-    :return:
+    Converts stepper motor steps into meters
+    :param steps: stepper motor steps
+    :param wheel_rad: Radius of robot wheels
+    :param microstep: Microstepping setting. Set on stepper driver
+    :type steps: int
+    :type wheel_rad: int, float
+    :type microstep: str
+    :return: distance in meters
     """
-
     wheel_circum = (2 * m.pi) * wheel_rad  # in meters
     frac = steps / STEPS_PER_REV[microstep]
     return wheel_circum * frac
@@ -27,11 +31,14 @@ def steps_2_dist(steps, wheel_rad=0.048, microstep="full", ):
 
 def dist_2_steps(dist, wheel_rad=0.048, microstep="full", ):
     """
-
-    :param dist:
-    :param wheel_rad:
-    :param microstep:
-    :return:
+    Converts stepper motor steps into meters
+    :param dist: distance in meters
+    :param wheel_rad: Radius of robot wheels
+    :param microstep: Microstepping setting. Set on stepper driver
+    :type dist: int, float
+    :type wheel_rad: int, float
+    :type microstep: str
+    :return: distance in meters
     """
     wheel_circum = (2 * m.pi) * wheel_rad  # in meters
     revs = dist / wheel_circum
@@ -41,18 +48,21 @@ def dist_2_steps(dist, wheel_rad=0.048, microstep="full", ):
     return [steps, actual_dist, error]  # Steps
 
 
+# TODO: Find correct conversion of steps to degrees
+
 def steps_2_deg(steps, wheel_rad=0.048, microstep="full", ):
     """
-
-    :param steps:
-    :param wheel_rad:
-    :param microstep:
-    :return:
+    Converts stepper motor steps into meters
+    :param steps: stepper motor steps
+    :param wheel_rad: Radius of robot wheels
+    :param microstep: Microstepping setting. Set on stepper driver
+    :type steps: int
+    :type wheel_rad: int, float
+    :type microstep: str
+    :return: rotation angle in degrees
     """
-
     dexter_rad = 0.19055427
     dexter_circum = (2 * m.pi) * dexter_rad
-
     wheel_circum = (2 * m.pi) * wheel_rad  # in meters
     frac = steps / STEPS_PER_REV[microstep]
     dist = wheel_circum * frac
@@ -61,10 +71,10 @@ def steps_2_deg(steps, wheel_rad=0.048, microstep="full", ):
 
 def deg_2_steps(deg):
     """
-    :param deg:
-    :param wheel_rad:
-    :param microstep:
-    :return:
+    Converts stepper motor steps into meters
+    :param deg: rotation angle in degrees
+    :type deg: int, float
+    :return: array: [steps, actual rotation in degrees, error]
     """
     dexter_rad = 0.19055427  # Radius from CoG to the centreline of front left wheel, measured in CAD.
     dexter_circum = (2 * m.pi) * dexter_rad
@@ -101,5 +111,3 @@ if __name__ == '__main__':
     STEPS = deg_2_steps(TEST_DEG)
     print(f'Going {TEST_DEG} degrees using full microstepping Dexter did '
           f'{STEPS[0]} steps. The actual step degree is {STEPS[1]:.5f}degrees, with an error of {STEPS[2]:.5f}%')
-
-# TODO: Fill out all the string docs, units and comment
