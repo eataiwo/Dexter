@@ -20,15 +20,18 @@ from src.powertrain.step_converter import deg_2_steps
 from time import sleep
 
 # Turning is relative to if you were looking down onto the robot from above
-directions = {'forward': (0, 1, 0, 1), 'backward': (1, 0, 1, 0),
-              'left': (1, 1, 0, 0), 'right': (0, 0, 1, 1),
-              'tots_cw': (0, 0, 0, 0), 'tots_ccw': (1, 1, 1, 1),
-              'diag_fl': (' ', 1, 0, ' '), 'diag_fr': (1, ' ', ' ', 0),
-              'diag_rl': (0, ' ', ' ', 1), 'diag_rr': (' ', 0, 1, ' '),
+# Clockwise rotation is a value of 0, False, Low
+# Motors should be connected so all motors spin the wheels forward when stepper motor is set in the clockwise direction
+# TODO: Test that new directions dictionary corresponds to the right movements.
+directions = {'forward': (0, 0, 0, 0), 'backward': (1, 1, 1, 1),
+              'left': (1, 0, 0, 1), 'right': (0, 1, 1, 0),
+              'tots_cw': (0, 1, 0, 1), 'tots_ccw': (1, 0, 1, 0),
+              'diag_fl': (' ', 0, 0, ' '), 'diag_fr': (1, ' ', ' ', 1),
+              'diag_rl': (0, ' ', ' ', 0), 'diag_rr': (' ', 1, 1, ' '),
               'cor_right_cw:': (0, ' ', 0, ' '), 'cor_right_ccw': (1, ' ', 1, ' '),
-              'cor_left_cw:': (' ', 1, ' ', 1), 'cor_left_ccw': (' ', 0, ' ', 0),
-              'tur_rear_ax_cw': (0, 0, ' ', ' '), 'tur_rear_ax_ccw': (1, 1, ' ', ' '),
-              'tur_front_ax_cw': (' ', ' ', 0, 0), 'tur_front_ax_ccw': (' ', ' ', 1, 1)}
+              'cor_left_cw:': (' ', 0, ' ', 0), 'cor_left_ccw': (' ', 1, ' ', 1),
+              'tur_rear_ax_cw': (0, 1, ' ', ' '), 'tur_rear_ax_ccw': (1, 0, ' ', ' '),
+              'tur_front_ax_cw': (' ', ' ', 0, 1), 'tur_front_ax_ccw': (' ', ' ', 1, 0)}
 
 
 class Powertrain:

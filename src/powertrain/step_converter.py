@@ -48,8 +48,6 @@ def dist_2_steps(dist, wheel_rad=0.048, microstep="full", ):
     return [steps, actual_dist, error]  # Steps
 
 
-# TODO: Find correct conversion of steps to degrees
-
 def steps_2_deg(steps, dexter_rad=0.25, wheel_rad=0.048, microstep="full", ):
     """
     Converts stepper motor steps into meters
