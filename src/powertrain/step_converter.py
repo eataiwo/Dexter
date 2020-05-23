@@ -50,10 +50,11 @@ def dist_2_steps(dist, wheel_rad=0.048, microstep="full", ):
 
 # TODO: Find correct conversion of steps to degrees
 
-def steps_2_deg(steps, wheel_rad=0.048, microstep="full", ):
+def steps_2_deg(steps, dexter_rad=0.25, wheel_rad=0.048, microstep="full", ):
     """
     Converts stepper motor steps into meters
     :param steps: stepper motor steps
+    :param dexter_rad: Radius from CoG to the front bumper, measured in CAD.
     :param wheel_rad: Radius of robot wheels
     :param microstep: Microstepping setting. Set on stepper driver
     :type steps: int
@@ -61,7 +62,6 @@ def steps_2_deg(steps, wheel_rad=0.048, microstep="full", ):
     :type microstep: str
     :return: rotation angle in degrees
     """
-    dexter_rad = 0.19055427
     dexter_circum = (2 * m.pi) * dexter_rad
     wheel_circum = (2 * m.pi) * wheel_rad  # in meters
     frac = steps / STEPS_PER_REV[microstep]
@@ -69,14 +69,15 @@ def steps_2_deg(steps, wheel_rad=0.048, microstep="full", ):
     return (dist / dexter_circum) * 360
 
 
-def deg_2_steps(deg):
+def deg_2_steps(deg, dexter_rad=0.25):
     """
     Converts stepper motor steps into meters
     :param deg: rotation angle in degrees
+    :param dexter_rad: Radius from CoG to the front bumper, measured in CAD.
     :type deg: int, float
     :return: array: [steps, actual rotation in degrees, error]
     """
-    dexter_rad = 0.19055427  # Radius from CoG to the centreline of front left wheel, measured in CAD.
+
     dexter_circum = (2 * m.pi) * dexter_rad
     dist = dexter_circum * (deg / 360)
     steps = dist_2_steps(dist)[0]
@@ -101,7 +102,7 @@ if __name__ == '__main__':
           f'{STEPS[0]} steps. The actual step distance is {STEPS[1]:.5f}m, with an error of {STEPS[2]:.5f}%')
 
     print('\nTesting function steps_2_deg')
-    TEST_STEPS = 1000
+    TEST_STEPS = 1066
     DEG = steps_2_deg(TEST_STEPS)
     print(f'Going {TEST_STEPS} steps using full microstepping Dexter went '
           f'{DEG:.2f} degrees')
