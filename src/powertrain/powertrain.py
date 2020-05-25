@@ -91,8 +91,16 @@ class Powertrain:
         """
 
         self.direction = direction
-        stepdelay = percent_to_stepdelay(speed)
         GPIO.output(self.direction_pins, directions[direction])
+
+        # Prevent user selecting speeds outside of the limits
+        if 0 > speed:
+            speed = 0
+
+        elif speed > 100:
+            speed = 100
+        else:
+            stepdelay = percent_to_stepdelay(speed)
 
         if direction in ['forward', 'backward', 'left', 'right']:
             steps = dist_2_steps(distance)[0]
