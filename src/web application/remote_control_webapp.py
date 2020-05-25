@@ -9,8 +9,6 @@ step_pins = (22, 24, 26, 21)
 
 dexter = Powertrain(direction_pins, step_pins)
 dexter.setup()
-global speed
-speed = 50
 
 # Get server ip
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -30,7 +28,6 @@ def index():
 
 @app.route('/<changepin>', methods=['POST'])
 def reroute(changepin):
-    global speed
     changePin = int(changepin)
     if changePin == 1:
         dexter.remote_direction = 'left'
@@ -47,14 +44,15 @@ def reroute(changepin):
     elif changePin == 7:
         dexter.remote_direction = 'tots_ccw'
     elif changePin == 8:
-        speed -= 5
+        dexter.speed -= 5
     elif changePin == 9:
-        speed += 5
+        dexter.speed += 5
     else:
         print("Wrong command")
 
     if not dexter.drive and changePin != 5 or changePin == 8 or changePin == 9:
-        dexter.remote(speed)
+        # Move dexter with the new powertrain variables
+        dexter.remote()
 
     response = make_response(redirect(url_for('index')))
     return response

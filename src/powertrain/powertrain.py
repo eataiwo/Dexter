@@ -73,7 +73,7 @@ class Powertrain:
         self.drive = False
         self.direction = ''
         self.remote_direction = ''
-        self.speed = ''
+        self.speed = 50
 
     def go(self, direction, distance, speed=0, initdelay=.05, verbose=False):
         """
@@ -92,6 +92,7 @@ class Powertrain:
         """
 
         self.direction = direction
+        self.speed = speed
         GPIO.output(self.direction_pins, directions[direction])
 
         # Prevent user selecting speeds outside of the limits
@@ -181,20 +182,25 @@ class Powertrain:
             GPIO.output(self.step_pins, False)
             GPIO.output(self.direction_pins, False)
 
-    def remote(self, speed, initdelay=.05, verbose=False):
+    def remote(self, verbose=False):
         """
         Moves Dexter based on desired direction from web application.
 
         :param speed: Steps stepper motor should turn.
-        :param initdelay: Initial delay before motors begin moving.
         :param verbose: Prints information related to motor movement
         :type speed: int, float
-        :type initdelay: int, float
         :type verbose: bool
         """
 
-        stepdelay = percent_to_stepdelay(speed)
         self.drive = True
+
+        if 0 > self.speed:
+            self.speed = 0
+
+        elif self.speed > 100:
+            self.speed = 100
+        else:
+            stepdelay = percent_to_stepdelay(self.speed)
 
         while self.drive:
             self.go_steps(self.remote_direction, 1, stepdelay, 0, verbose)
