@@ -9,6 +9,7 @@ step_pins = (22, 24, 26, 21)
 
 dexter = Powertrain(direction_pins, step_pins)
 dexter.setup()
+global speed
 speed = 50
 
 # Get server ip
@@ -29,8 +30,8 @@ def index():
 
 @app.route('/<changepin>', methods=['POST'])
 def reroute(changepin):
+    global speed
     changePin = int(changepin)
-
     if changePin == 1:
         dexter.remote_direction = 'left'
     elif changePin == 2:

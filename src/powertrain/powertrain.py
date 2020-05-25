@@ -73,6 +73,7 @@ class Powertrain:
         self.drive = False
         self.direction = ''
         self.remote_direction = ''
+        self.speed = ''
 
     def go(self, direction, distance, speed=0, initdelay=.05, verbose=False):
         """
