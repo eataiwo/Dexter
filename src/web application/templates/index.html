@@ -2,38 +2,36 @@
 <html>
 
 	<head>
-		<title>Robot Cam</title>
-		<meta name="viewport" content="width=device-width, initial-scale=0.5">
+		<title>Dexter Controller</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 
 <style>
-table ,td, tr {
-		width: 30%;
-}
+table {width:100%; margin-left:auto; margin-right:auto; max-width:500px; max-height:40%}
 
 </style>
 
 	<body>
 		<!--
-		<img src="http://{{ server_ip }}:8081/" style="width:100%; max-width: 300px; max-height:300px; border-radius:5px"></img>
+		<img src="http://{{ server_ip }}:8081/" style="width:100%; max-width:300px; max-height:300px; border-radius:5px; background-coluor"></img>
 		-->
-		<table style="width:100%; max-width: 1000px; height:auto;">
+		<table>
 			<tr>
 				<td>
 					<form action="/1" method="POST">
-						<input type="image" name="direction" src="../static/img/left.svg" value="left" style="float:center; width:80% ;">
+						<input type="image" name="direction" src="../static/img/left.svg" value="left">
 						</br>
 					</form>
 				</td>
 				<td>
 					<form action="/2" method="POST">
-						<input type="image" name="direction" src="../static/img/forward.svg" value="forward" style="float:center; width:80%;">
+						<input type="image" name="direction" src="../static/img/forward.svg" value="forward">
 						</br>
 					</form>
 				</td>
 				<td>
 					<form action="/3" method="POST">
-						<input type="image" name="direction" src="../static/img/right.svg" value="right" style="float:center; width:80%;">
+						<input type="image" name="direction" src="../static/img/right.svg" value="right">
 						</br>
 					</form>
 				</td>
@@ -41,19 +39,19 @@ table ,td, tr {
 			<tr>
 				<td>
 					<form action="/7" method="POST">
-						<input type="image" name="direction" src="../static/img/ccw.svg" value="ccw" style="float:center; width:80%; " >
+						<input type="image" name="direction" src="../static/img/ccw.svg" value="ccw"  >
 						</br>
 					</form>
 				</td>
 				<td>
 					<form action="/4" method="POST">
-						<input type="image" name="direction" src="../static/img/reverse.svg" value="reverse" style="float:center; width:80%;" >
+						<input type="image" name="direction" src="../static/img/reverse.svg" value="reverse" >
 						</br>
 					</form>
 				</td>
 								<td>
 					<form action="/6" method="POST">
-						<input type="image" name="direction" src="../static/img/cw.svg" value="cw" style="float:center; width:80%;">
+						<input type="image" name="direction" src="../static/img/cw.svg" value="cw" >
 						</br>
 					</form>
 				</td>
@@ -61,19 +59,19 @@ table ,td, tr {
 			<tr>
 				<td>
 					<form action="/8" method="POST">
-						<input type="image" name="direction" src="../static/img/minus.svg" value="speed_down" style="float:center; width:80%;">
+						<input type="image" name="direction" src="../static/img/minus.svg" value="speed_down" >
 						</br>
 					</form>
 				</td>
 				<td>
 					<form action="/5" method="POST">
-						<input type="image" name="direction" src="../static/img/stop_2.svg" value="stop" style="float:center; width:80%;">
+						<input type="image" name="direction" src="../static/img/stop_2.svg" value="stop">
 						</br>
 					</form>
 				</td>
 								<td>
 					<form action="/9" method="POST">
-						<input type="image" name="direction" src="../static/img/plus.svg" value="speed_up" style="float:center; width:80%;">
+						<input type="image" name="direction" src="../static/img/plus.svg" value="speed_up">
 						</br>
 					</form>
 				</td>
