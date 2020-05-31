@@ -11,46 +11,44 @@ dexter = Powertrain(direction_pins, step_pins)
 dexter.setup()
 
 # Get server ip
-#s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-#s.connect(("8.8.8.8", 80))
-#server_ip = s.getsockname()[0]
-#s.close()
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+server_ip = s.getsockname()[0]
+s.close()
 
 app = Flask(__name__)
 
 
-# TODO: Edit index.html and control app to include turning on the spot.
-# TODO: Edit index.html for centering the buttons and sizing them so they fit on my iphone and laptop screens.
 @app.route('/')
 def index():
-    return render_template('index.html', server_ip='server_ip')
+    return render_template('index.html', server_ip=server_ip)
 
 
 @app.route('/<changepin>', methods=['POST'])
 def reroute(changepin):
-    changePin = int(changepin)
-    if changePin == 1:
+    changepin = int(changepin)
+    if changepin == 1:
         dexter.remote_direction = 'left'
-    elif changePin == 2:
+    elif changepin == 2:
         dexter.remote_direction = 'forward'
-    elif changePin == 3:
+    elif changepin == 3:
         dexter.remote_direction = 'right'
-    elif changePin == 4:
+    elif changepin == 4:
         dexter.remote_direction = 'backward'
-    elif changePin == 5:
+    elif changepin == 5:
         dexter.stop()
-    elif changePin == 6:
+    elif changepin == 6:
         dexter.remote_direction = 'tots_cw'
-    elif changePin == 7:
+    elif changepin == 7:
         dexter.remote_direction = 'tots_ccw'
-    elif changePin == 8:
+    elif changepin == 8:
         dexter.speed -= 5
-    elif changePin == 9:
+    elif changepin == 9:
         dexter.speed += 5
     else:
         print("Wrong command")
 
-    if not dexter.drive and changePin != 5 or changePin == 8 or changePin == 9:
+    if not dexter.drive and changepin != 5: # or changepin == 8 or changepin == 9:
         # Move dexter with the new powertrain variables
         dexter.remote()
 
