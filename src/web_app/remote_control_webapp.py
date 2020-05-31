@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, make_response
 import RPi.GPIO as GPIO
-# import motors
 import socket
 from src.powertrain.powertrain import Powertrain
 

@@ -74,6 +74,7 @@ class Powertrain:
         self.direction = ''
         self.remote_direction = ''
         self.speed = 50
+        self.stepdelay = ''
 
     def go(self, direction, distance, speed=0, initdelay=.05, verbose=False):
         """
@@ -200,10 +201,8 @@ class Powertrain:
         elif self.speed > 100:
             self.speed = 100
         else:
-            stepdelay = percent_to_stepdelay(self.speed)
-
-        while self.drive:
-            self.go_steps(self.remote_direction, 1, stepdelay, 0, verbose)
+            while self.drive:
+                self.go_steps(self.remote_direction, 1, percent_to_stepdelay(self.speed), 0, verbose)
 
     def stop(self):
         """
