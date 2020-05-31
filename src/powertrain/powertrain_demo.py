@@ -22,7 +22,7 @@ dexter.go('backward', distance, 100, 0.1)
 dexter.go('right', distance, speed, 1)
 dexter.go('left', distance, speed, 1)
 dexter.go('tots_cw', turn, speed, 1)
-dexter.go('tots_ccw', turn, speed, 1)
+dexter.go('tots_ccw', turn, 100, 1)
 
 # def listen():
 #     while True:

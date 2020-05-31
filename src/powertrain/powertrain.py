@@ -52,7 +52,7 @@ class Powertrain:
         Moves Dexter based on desired direction, speed and distance.
     go_steps():
         Moves Dexter based on desired direction, step delay and number of steps
-    go_remote():
+    remote():
         Moves Dexter based on commands from a web application
     stop():
         Stops Dexter
