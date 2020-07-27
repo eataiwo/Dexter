@@ -11,32 +11,45 @@ ones and vice versa.
 
 upp_stepdelay = 0.003  # Highest speed
 low_stepdelay = 0.02  # Slowest speed
+ang_speed_factor = 2  # Conversion factor for going from linear speed to angular speed.
 
 
 # This type of scaling is imperfect but best I can do without any accurate speed measurements
 
-def stepdelay_to_percent(stepdelay):
+def stepdelay_to_percent(stepdelay, speed_type='linear'):
     """
     Converts stepper motor stepdelay into a percentage of max speed
     :param stepdelay: Delay in seconds between steps
     :type stepdelay: int, float
-    :return: percentage of max speed
+    :param speed_type: Type of speed. Either linear or angular
+    :type speed_type: string
+    :return: percentage of the stepdelay within the defined threshold
     """
     if upp_stepdelay <= stepdelay <= low_stepdelay:
-        return 100 - (((stepdelay - upp_stepdelay) * 100) / (low_stepdelay - upp_stepdelay))
+        percent = 100 - (((stepdelay - upp_stepdelay) * 100) / (low_stepdelay - upp_stepdelay))
+        if speed_type == 'linear':
+            return percent
+        elif speed_type == 'angular':
+            return percent * ang_speed_factor
     else:
         return None
 
 
-def percent_to_stepdelay(percent):
+def percent_to_stepdelay(percent, speed_type='linear'):
     """
-    Converts speed percentage into a stepdelay
+    Converts stepper motor stepdelay into a percentage of max speed
     :param percent: Delay in seconds between steps
     :type percent: int, float
-    :return: stepdelay of steps in seconds
+    :param speed_type: Type of speed. Either linear or angular
+    :type speed_type: string
+    :return: percentage of the stepdelay within the defined threshold
     """
     if 0 <= percent <= 100:
-        return (((100-percent)*(low_stepdelay-upp_stepdelay))/100) + upp_stepdelay
+        stepdelay = (((100 - percent) * (low_stepdelay - upp_stepdelay)) / 100) + upp_stepdelay
+        if speed_type == 'linear':
+            return stepdelay
+        elif speed_type == 'angular':
+            return stepdelay / ang_speed_factor
     else:
         return None
 

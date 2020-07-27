@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, make_response
-import RPi.GPIO as GPIO
+from flask import Flask, render_template, redirect, url_for, make_response, Response
 import socket
+
 from src.powertrain.powertrain import Powertrain
+from src.camera.camera import Camera
 
 direction_pins = (27, 23, 19, 20)
 step_pins = (22, 24, 26, 21)
@@ -21,6 +22,19 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html', server_ip=server_ip)
+
+
+# def gen(camera):
+#     while True:
+#         frame = camera.get_frame()
+#         yield (b'--frame\r\n'
+#                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+#
+#
+# @app.route('/video_feed')
+# def video_feed():
+#     return Response(gen(Camera()),
+#                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route('/<changepin>', methods=['POST'])
@@ -47,9 +61,10 @@ def reroute(changepin):
     else:
         print("Wrong command")
 
-    if not dexter.drive and changepin != 5: # or changepin == 8 or changepin == 9:
+    if not dexter.drive and changepin != 5:  # or changepin == 8 or changepin == 9:
+
         # Move dexter with the new powertrain variables
-        dexter.remote()
+        dexter.remote_control()
 
     response = make_response(redirect(url_for('index')))
     return response
