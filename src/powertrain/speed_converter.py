@@ -4,6 +4,8 @@ ones and vice versa.
 
 """
 
+from powertrain.utils import speed_check, stepdelay_check
+
 # Define lower and upper bounds
 # For a stepper motor speed is determined by the time between steps
 # and is the delay between switching the step pin high to low: stepdelay variable
@@ -44,15 +46,12 @@ def percent_to_stepdelay(percent, speed_type='linear'):
     :type speed_type: string
     :return: percentage of the stepdelay within the defined threshold
     """
-    if 0 <= percent <= 100:
-        stepdelay = (((100 - percent) * (low_stepdelay - upp_stepdelay)) / 100) + upp_stepdelay
-        if speed_type == 'linear':
-            return stepdelay
-        elif speed_type == 'angular':
-            return stepdelay / ang_speed_factor
-    else:
-        return None
-
+    percent = speed_check(percent)
+    stepdelay = (((100 - percent) * (low_stepdelay - upp_stepdelay)) / 100) + upp_stepdelay
+    if speed_type == 'linear':
+        return stepdelay
+    elif speed_type == 'angular':
+        return stepdelay / ang_speed_factor
 
 if __name__ == '__main__':
     stepdelays = [0.02, 0.01, 0.0075, 0.005, 0.004, 0.003]

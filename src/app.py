@@ -1,10 +1,10 @@
 from flask import Flask, render_template, redirect, url_for, make_response, Response
 import socket
 
-from src.powertrain.powertrain import Powertrain
-from src.camera.camera import Camera
+from powertrain.powertrain import Powertrain
+# from camera.camera import Camera
 
-dexter = Powertrain(direction_pins, step_pins)
+dexter = Powertrain()
 dexter.setup()
 
 # Get server ip
@@ -38,19 +38,19 @@ def index():
 def reroute(changepin):
     changepin = int(changepin)
     if changepin == 1:
-        dexter.remote_direction = 'left'
+        dexter.direction = 'left'
     elif changepin == 2:
-        dexter.remote_direction = 'forward'
+        dexter.direction = 'forward'
     elif changepin == 3:
-        dexter.remote_direction = 'right'
+        dexter.direction = 'right'
     elif changepin == 4:
-        dexter.remote_direction = 'backward'
+        dexter.direction = 'backward'
     elif changepin == 5:
         dexter.stop()
     elif changepin == 6:
-        dexter.remote_direction = 'tots_cw'
+        dexter.direction = 'tots_cw'
     elif changepin == 7:
-        dexter.remote_direction = 'tots_ccw'
+        dexter.direction = 'tots_ccw'
     elif changepin == 8:
         dexter.speed -= 5
     elif changepin == 9:

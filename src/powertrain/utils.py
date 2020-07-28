@@ -1,15 +1,15 @@
-from src.powertrain.speed_converter import percent_to_stepdelay
-from src.powertrain.speed_converter import stepdelay_to_percent
+#from powertrain.speed_converter import percent_to_stepdelay
+#from powertrain.speed_converter import stepdelay_to_percent
 
 MIN_STEPDELAY = 0.003  # Highest speed
 MAX_STEPDELAY = 0.02  # Slowest speed
 
 
 def stepdelay_check(stepdelay):
-    if stepdelay > max_stepdelay:
-        return max_stepdelay
-    elif stepdelay < min_stepdelay:
-        return min_stepdelay
+    if stepdelay > MAX_STEPDELAY:
+        return MAX_STEPDELAY
+    elif stepdelay < MIN_STEPDELAY:
+        return MIN_STEPDELAY
     else:
         return stepdelay
 

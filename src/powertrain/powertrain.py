@@ -24,12 +24,12 @@ RR = Rear Right
 
 import sys
 import RPi.GPIO as GPIO
-from src.powertrain.step_converter import dist_2_steps
-from src.powertrain.speed_converter import percent_to_stepdelay
-from src.powertrain.speed_converter import stepdelay_to_percent
-from src.powertrain.step_converter import deg_2_steps
-from utils import speed_check
-from utils import stepdelay_check
+from powertrain.step_converter import dist_2_steps
+from powertrain.speed_converter import percent_to_stepdelay
+from powertrain.speed_converter import stepdelay_to_percent
+from powertrain.step_converter import deg_2_steps
+from powertrain.utils import speed_check
+from powertrain.utils import stepdelay_check
 from time import sleep
 
 # Stepper motors are wired so all motors rotate its wheel forward when set to clockwise. i.e. the motors
@@ -84,7 +84,7 @@ class Powertrain:
         self.enable_pin = enable_pin
         self.drive = False
         self.direction = ''
-        self.speed = 50
+        self.speed = 80
         self.stepdelay = ''
         self.pwr_save = True
 
@@ -128,14 +128,16 @@ class Powertrain:
         :type verbose: bool
         """
 
-        stepdelay = stepdelay_check(stepdelay)  # Check stepdelay is within bounds
-        self.speed = stepdelay_to_percent(stepdelay)  # Update speed attribute
+        stepdelay_checked = stepdelay_check(stepdelay)  # Check stepdelay is within bounds
+        self.speed = stepdelay_to_percent(stepdelay_checked)  # Update speed attribute
 
         self.direction = direction  # Update direction attribute
 
         GPIO.output(self.direction_pins, wheel_directions[direction])
 
         sleep(initdelay)
+        
+        GPIO.output(self.enable_pin, False)
 
         try:
             for i in range(steps):
@@ -161,9 +163,6 @@ class Powertrain:
             # cleanup
             GPIO.output(self.step_pins, False)
             GPIO.output(self.direction_pins, False)
-            if self.pwr_save:
-                sleep(0.1)
-                GPIO.output(self.enable_pin, True)
 
     def remote_control(self, verbose=False):
         """
@@ -193,6 +192,8 @@ class Powertrain:
         # Cleanup GPIO
         GPIO.output(self.step_pins, False)
         GPIO.output(self.direction_pins, False)
+        sleep(0.1)
+        GPIO.output(self.enable_pin, True)
 
     def setup(self):
         """
@@ -203,3 +204,4 @@ class Powertrain:
         GPIO.setup(self.direction_pins, GPIO.OUT)
         GPIO.setup(self.step_pins, GPIO.OUT)
         GPIO.setup(self.enable_pin, GPIO.OUT)
+        GPIO.output(self.enable_pin, True)
