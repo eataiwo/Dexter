@@ -133,7 +133,6 @@ dmypy.json
 /.idea/
 
 # Dexter specific files
-setup.py
 /powertrain/powertrain_demo.py
 
 
