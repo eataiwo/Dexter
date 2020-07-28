@@ -4,9 +4,6 @@ import socket
 from src.powertrain.powertrain import Powertrain
 from src.camera.camera import Camera
 
-direction_pins = (27, 23, 19, 20)
-step_pins = (22, 24, 26, 21)
-
 dexter = Powertrain(direction_pins, step_pins)
 dexter.setup()
 

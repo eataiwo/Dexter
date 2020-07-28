@@ -32,7 +32,6 @@ from utils import speed_check
 from utils import stepdelay_check
 from time import sleep
 
-
 # Stepper motors are wired so all motors rotate its wheel forward when set to clockwise. i.e. the motors
 # on the left hand side are wired with the opposite direction pins to the motors on the right hand side.
 
@@ -48,6 +47,10 @@ wheel_directions = {'forward': (0, 0, 0, 0), 'backward': (1, 1, 1, 1),
                     'cor_left_cw:': (' ', 0, ' ', 0), 'cor_left_ccw': (' ', 1, ' ', 1),
                     'tur_rear_ax_cw': (0, 1, ' ', ' '), 'tur_rear_ax_ccw': (1, 0, ' ', ' '),
                     'tur_front_ax_cw': (' ', ' ', 0, 1), 'tur_front_ax_ccw': (' ', ' ', 1, 0)}
+
+direction_pins = (27, 23, 19, 20)
+step_pins = (22, 24, 26, 21)
+enable_pin = 6
 
 
 class Powertrain:
@@ -75,20 +78,15 @@ class Powertrain:
         Setup for the powertrain
     """
 
-    def __init__(self, direction_pins, step_pins):
-        """
-        :param direction_pins: GPIO pins connected to the direction pin on the stepper motor driver
-        :param step_pins: GPIO pins connected to the step pin on the stepper motor driver
-        :type direction_pins: list, tuple
-        :type step_pins: list, tuple
-        """
-
+    def __init__(self):
         self.direction_pins = direction_pins
         self.step_pins = step_pins
+        self.enable_pin = enable_pin
         self.drive = False
         self.direction = ''
         self.speed = 50
         self.stepdelay = ''
+        self.pwr_save = True
 
     def go(self, direction, distance, speed=0, initdelay=0, verbose=False):
         """
@@ -163,6 +161,9 @@ class Powertrain:
             # cleanup
             GPIO.output(self.step_pins, False)
             GPIO.output(self.direction_pins, False)
+            if self.pwr_save:
+                sleep(0.1)
+                GPIO.output(self.enable_pin, True)
 
     def remote_control(self, verbose=False):
         """
@@ -201,3 +202,4 @@ class Powertrain:
         GPIO.setwarnings(False)
         GPIO.setup(self.direction_pins, GPIO.OUT)
         GPIO.setup(self.step_pins, GPIO.OUT)
+        GPIO.setup(self.enable_pin, GPIO.OUT)
