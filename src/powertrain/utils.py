@@ -1,8 +1,8 @@
 
 import math as m
 
-MIN_STEPDELAY = 0.003  # Highest speed
-MAX_STEPDELAY = 0.02  # Slowest speed
+MIN_STEPDELAY = 0.002  # Highest speed
+MAX_STEPDELAY = 0.01  # Slowest speed
 ANG_SPEED_FACTOR = 2
 
 

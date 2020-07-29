@@ -19,16 +19,8 @@ RR = Rear Right
 ==================================================
 """
 
-# TODO: Make a single utils script to hold all powertrain static functions such as conversion and checks
-# TODO: Import modules the more pythonic was given new file/folder structure.
-
 import sys
 import RPi.GPIO as GPIO
-#from powertrain.step_converter import dist_2_steps
-#from powertrain.speed_converter import percent_to_stepdelay
-#from powertrain.speed_converter import stepdelay_to_percent
-#from powertrain.step_converter import deg_2_steps
-#from powertrain.utils import speed_check
 from powertrain.utils import stepdelay_check, speed_check, dist_2_steps, percent_to_stepdelay, stepdelay_to_percent, deg_2_steps
 from time import sleep
 
