@@ -10,7 +10,7 @@ dexter.setup()
 # Get server ip
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
-server_ip = s.getsockname()[0]
+server_ip = s.getsockname()[0] 
 s.close()
 
 app = Flask(__name__)
@@ -34,40 +34,70 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-@app.route('/<changepin>', methods=['POST'])
-def reroute(changepin):
-    changepin = int(changepin)
-    if changepin == 1:
-        dexter.direction = 'left'
-    elif changepin == 2:
-        dexter.direction = 'forward'
-    elif changepin == 3:
-        dexter.direction = 'right'
-    elif changepin == 4:
-        dexter.direction = 'backward'
-    elif changepin == 5:
-        dexter.stop()
-    elif changepin == 6:
-        dexter.direction = 'cw'
-    elif changepin == 7:
-        dexter.direction = 'ccw'
-    elif changepin == 8:
-        dexter.speed -= 5
-    elif changepin == 9:
-        dexter.speed += 5
-    else:
-        print("Wrong command")
-
-    if changepin == 8 or changepin == 9:
-        # If changing speed do nothing
-        pass
-
-    elif not dexter.drive and changepin != 5:
-        # Move dexter with the new powertrain variables
+@app.route('/forward')
+def forward():
+    dexter.direction = 'forward'
+    if not dexter.drive:
         dexter.remote_control()
-
-    response = make_response(redirect(url_for('index')))
-    return response
+    return "nothing"
 
 
-app.run(host='0.0.0.0', threaded=True, port=8000)
+@app.route('/backward')
+def backward():
+    dexter.direction = 'backward'
+    if not dexter.drive:
+        dexter.remote_control()
+    return "nothing"
+
+
+@app.route('/left')
+def left():
+    dexter.direction = 'left'
+    if not dexter.drive:
+        dexter.remote_control()
+    return "nothing"
+
+
+@app.route('/right')
+def right():
+    dexter.direction = 'right'
+    if not dexter.drive:
+        dexter.remote_control()
+    return "nothing"
+
+
+@app.route('/cw')
+def tots_cw():
+    dexter.direction = 'cw'
+    if not dexter.drive:
+        dexter.remote_control()
+    return "nothing"
+
+
+@app.route('/ccw')
+def tots_ccw():
+    dexter.direction = 'ccw'
+    if not dexter.drive:
+        dexter.remote_control()
+    return "nothing"
+
+
+@app.route('/stop')
+def stop():
+    dexter.stop()
+    return "nothing"
+
+
+@app.route('/speed_up')
+def speed_up():
+    dexter.speed += 5
+    return "nothing"
+
+
+@app.route('/speed_down')
+def speed_down():
+    dexter.speed -= 5
+    return "nothing"
+
+
+app.run(debug=True, host='0.0.0.0', port=8000)

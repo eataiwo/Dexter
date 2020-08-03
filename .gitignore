@@ -134,5 +134,6 @@ dmypy.json
 
 # Dexter specific files
 /powertrain/powertrain_demo.py
+/src/web_app_archive
 
 

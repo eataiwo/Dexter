@@ -8,28 +8,123 @@
 
 <style>
 table {width:100%; margin-left:auto; margin-right:auto; max-width:500px; max-height:40%}
+img {width:80%; text-align:center;}
 input {width:80%;}
 td {text-align:center; vertical-align:middle;}
 </style>
-	<body>
-		<img src="{{ url_for('video_feed') }}" style="width:100%; height:100%; border-radius:10px; max-width:500px; text-align:center; "></img>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type=text/javascript>
+        $(function() {
+          $('a#forward').bind('click', function() {
+            $.getJSON('/forward',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+        $(function() {
+          $('a#backward').bind('click', function() {
+            $.getJSON('/backward',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+        $(function() {
+          $('a#left').bind('click', function() {
+            $.getJSON('/left',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+        $(function() {
+          $('a#right').bind('click', function() {
+            $.getJSON('/right',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+        $(function() {
+          $('a#cw').bind('click', function() {
+            $.getJSON('/cw',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+        $(function() {
+          $('a#ccw').bind('click', function() {
+            $.getJSON('/ccw',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+        $(function() {
+          $('a#stop').bind('click', function() {
+            $.getJSON('/stop',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+        $(function() {
+          $('a#speed_up').bind('click', function() {
+            $.getJSON('/speed_up',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+        $(function() {
+          $('a#speed_down').bind('click', function() {
+            $.getJSON('/speed_down',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+</script>
+	</body>
+	<div class="video_stream">
+		<!--img src="{{ url_for('video_feed') }}" style="width:100%; height:100%; border-radius:10px; max-width:500px; text-align:center; "></img-->
+	</div>
+	<div class="remote_control">
 		<table border="0">
 			<tr>
 				<td>
 					<form action="/7" method="POST">
-						<input type="image" name="direction" src="../static/img/ccw.svg" value="ccw">
-						</br>
+							<a href=# id=ccw>
+							<img src="../static/img/ccw.svg">
+							</a>
+							</br>
 					</form>
 				</td>
 				<td>
 					<form action="/2" method="POST">
-						<input type="image" name="direction" src="../static/img/forward.svg" value="forward">
+						<a href=# id=forward>
+							<img src="../static/img/forward.svg">
+						</a>
 						</br>
 					</form>
 				</td>
 				<td>
 					<form action="/6" method="POST">
-						<input type="image" name="direction" src="../static/img/cw.svg" value="cw">
+						<a href=# id=cw>
+							<img src="../static/img/cw.svg">
+						</a>
 						</br>
 					</form>
 				</td>
@@ -37,19 +132,25 @@ td {text-align:center; vertical-align:middle;}
 			<tr>
 				<td>
 					<form action="/1" method="POST">
-						<input type="image" name="direction" src="../static/img/left.svg" value="left">
+						<a href=# id=left>
+							<img src="../static/img/left.svg">
+						</a>
 						</br>
 					</form>
 				</td>
 				<td>
 					<form action="/5" method="POST">
-						<input type="image" name="direction" src="../static/img/stop_2.svg" value="stop" >
+						<a href=# id=stop>
+							<img src="../static/img/stop_2.svg">
+						</a>
 						</br>
 					</form>
 				</td>
 				<td>
 					<form action="/3" method="POST">
-						<input type="image" name="direction" src="../static/img/right.svg" value="right">
+						<a href=# id=right>
+							<img src="../static/img/right.svg">
+						</a>
 						</br>
 					</form>
 				</td>
@@ -57,23 +158,30 @@ td {text-align:center; vertical-align:middle;}
 			<tr>
 				<td>
 					<form action="/8" method="POST">
-						<input type="image" name="direction" src="../static/img/minus.svg" value="speed_down">
+						<a href=# id=speed_down>
+							<img src="../static/img/minus.svg">
+						</a>
 						</br>
 					</form>
 				</td>
 				<td>
 					<form action="/4" method="POST">
-						<input type="image" name="direction" src= "../static/img/backward.svg" value="backward">
+						<a href=# id=backward>
+							<img src= "../static/img/backward.svg">
+						</a>
 						</br>
 					</form>
 				</td>
 				<td>
 					<form action="/9" method="POST">
-						<input type="image" name="direction" src="../static/img/plus.svg" value="speed_up">
+						<a href=# id=speed_up>
+							<img src="../static/img/plus.svg">
+						</a>
 						</br>
 					</form>
 				</td>
 			</tr>
 		</table>
+	</div>
 	</body>
 </html>
