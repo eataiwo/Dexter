@@ -67,4 +67,4 @@ def reroute(changepin):
     return response
 
 
-app.run(debug=True, host='0.0.0.0', port=8000)
+app.run(host='0.0.0.0', threaded=True, port=8000)
