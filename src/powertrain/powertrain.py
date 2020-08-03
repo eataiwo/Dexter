@@ -70,7 +70,7 @@ class Powertrain:
         self.enable_pin = enable_pin
         self.drive = False
         self.direction = ''
-        self.speed = 80
+        self.speed = 100
         self.stepdelay = ''
         self.pwr_save = True
 
@@ -115,7 +115,7 @@ class Powertrain:
         """
 
         stepdelay = stepdelay_check(stepdelay)
-        self.speed = stepdelay_to_percent(stepdelay)  # Update speed attribute
+        #self.speed = stepdelay_to_percent(stepdelay)  # Update speed attribute
 
         self.direction = direction  # Update direction attribute
 

@@ -104,3 +104,7 @@ class BaseCamera(object):
                 # print('Stopping camera thread due to inactivity.')
                 # break
         BaseCamera.thread = None
+
+
+# https://blog.miguelgrinberg.com/post/video-streaming-with-flask
+# https://blog.miguelgrinberg.com/post/flask-video-streaming-revisited

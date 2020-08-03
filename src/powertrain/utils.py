@@ -1,9 +1,10 @@
 
 import math as m
 
-MIN_STEPDELAY = 0.002  # Highest speed
+MIN_STEPDELAY = 0.003  # Highest speed
 MAX_STEPDELAY = 0.01  # Slowest speed
-ANG_SPEED_FACTOR = 2
+ANG_SPEED_STEPDELAY = 0.006
+ANG_SPEED_PERCENT = 50
 
 
 def stepdelay_check(stepdelay):
@@ -39,7 +40,7 @@ def stepdelay_to_percent(stepdelay, speed_type='linear'):
     if speed_type == 'linear':
         return percent
     elif speed_type == 'angular':
-        return percent * ANG_SPEED_FACTOR
+        return ANG_SPEED_PERCENT
 
 
 def percent_to_stepdelay(percent, speed_type='linear'):
@@ -56,7 +57,7 @@ def percent_to_stepdelay(percent, speed_type='linear'):
     if speed_type == 'linear':
         return stepdelay
     elif speed_type == 'angular':
-        return stepdelay / ANG_SPEED_FACTOR
+        return ANG_SPEED_STEPDELAY
 
 
 STEPS_PER_REV = {'full': 200,
