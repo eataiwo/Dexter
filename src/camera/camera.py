@@ -23,4 +23,4 @@ class Camera(BaseCamera):
                 stream.truncate()
 
 # https://blog.miguelgrinberg.com/post/video-streaming-with-flask
-# https://blog.miguelgrinberg.com/post/flask-video-streaming-revisited
+    # https://blog.miguelgrinberg.com/post/flask-video-streaming-revisited

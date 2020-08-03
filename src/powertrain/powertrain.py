@@ -32,13 +32,7 @@ from time import sleep
 
 wheel_directions = {'forward': (0, 0, 0, 0), 'backward': (1, 1, 1, 1),
                     'left': (1, 0, 0, 1), 'right': (0, 1, 1, 0),
-                    'tots_cw': (0, 1, 0, 1), 'tots_ccw': (1, 0, 1, 0),
-                    'diag_fl': (' ', 0, 0, ' '), 'diag_fr': (1, ' ', ' ', 1),
-                    'diag_rl': (0, ' ', ' ', 0), 'diag_rr': (' ', 1, 1, ' '),
-                    'cor_right_cw:': (0, ' ', 0, ' '), 'cor_right_ccw': (1, ' ', 1, ' '),
-                    'cor_left_cw:': (' ', 0, ' ', 0), 'cor_left_ccw': (' ', 1, ' ', 1),
-                    'tur_rear_ax_cw': (0, 1, ' ', ' '), 'tur_rear_ax_ccw': (1, 0, ' ', ' '),
-                    'tur_front_ax_cw': (' ', ' ', 0, 1), 'tur_front_ax_ccw': (' ', ' ', 1, 0)}
+                    'cw': (0, 1, 0, 1), 'ccw': (1, 0, 1, 0),}
 
 direction_pins = (27, 23, 19, 20)
 step_pins = (22, 24, 26, 21)
@@ -99,7 +93,7 @@ class Powertrain:
         # Convert distance or degrees to steps depending direction
         if direction in ['forward', 'backward', 'left', 'right']:
             steps = dist_2_steps(distance)[0]
-        elif direction in ['tots_cw', 'tots_ccw']:
+        elif direction in ['cw', 'ccw']:
             steps = deg_2_steps(distance)[0]
 
         self.go_steps(direction, steps, percent_to_stepdelay(speed), initdelay, verbose)
@@ -166,7 +160,7 @@ class Powertrain:
 
         # Set speed conversion according to the type of motion.
         # Implemented for better user control when using webapp.
-        if self.direction in ['tots_cw', 'tots_ccw']:
+        if self.direction in ['cw', 'ccw']:
             remote_speed_type = 'angular'
         else:
             remote_speed_type = 'linear'

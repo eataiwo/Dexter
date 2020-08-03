@@ -48,9 +48,9 @@ def reroute(changepin):
     elif changepin == 5:
         dexter.stop()
     elif changepin == 6:
-        dexter.direction = 'tots_cw'
+        dexter.direction = 'cw'
     elif changepin == 7:
-        dexter.direction = 'tots_ccw'
+        dexter.direction = 'ccw'
     elif changepin == 8:
         dexter.speed -= 5
     elif changepin == 9:
@@ -58,8 +58,11 @@ def reroute(changepin):
     else:
         print("Wrong command")
 
-    if not dexter.drive and changepin != 5:  # or changepin == 8 or changepin == 9:
+    if changepin == 8 or changepin == 9:
+        # If changing speed do nothing
+        pass
 
+    elif not dexter.drive and changepin != 5:
         # Move dexter with the new powertrain variables
         dexter.remote_control()
 
