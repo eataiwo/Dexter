@@ -164,6 +164,9 @@ class Powertrain:
             remote_speed_type = 'angular'
         else:
             remote_speed_type = 'linear'
+        
+        sleep(0.2)
+        GPIO.output(self.enable_pin, False)
 
         # Drive in direction commanded from webapp indefinitely
         while self.drive:
@@ -178,7 +181,7 @@ class Powertrain:
         # Cleanup GPIO
         GPIO.output(self.step_pins, False)
         GPIO.output(self.direction_pins, False)
-        sleep(0.1)
+        sleep(0.2)
         GPIO.output(self.enable_pin, True)
 
     def setup(self):
