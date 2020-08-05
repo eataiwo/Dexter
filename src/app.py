@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', server_ip=server_ip)
+    return render_template('index.html', server_ip=server_ip, speed=dexter.speed)
 
 
 def gen(camera):
@@ -100,4 +100,4 @@ def speed_down():
     return "nothing"
 
 
-app.run(debug=True, host='0.0.0.0', port=8000)
+app.run(debug=True, host='0.0.0.0', port=8000, threaded=False)
