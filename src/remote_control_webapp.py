@@ -1,5 +1,4 @@
 from flask import Flask, render_template, redirect, url_for, make_response, Response
-import socket
 
 from powertrain.powertrain import Powertrain
 from camera.camera import Camera
