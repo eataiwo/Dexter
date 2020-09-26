@@ -127,6 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/utils/step_converter.py
+
+# PyCharm files
 /.idea
 /.idea/
+
+# Dexter specific files
+/powertrain/powertrain_demo.py
+/src/web_app_archive
+
+
